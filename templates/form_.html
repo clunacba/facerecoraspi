@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ISS - Drexgen</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <!-- Font Google !-->
+  <link href="https://fonts.googleapis.com/css?family=Bebas+Neue" rel="stylesheet">
+
+  <!-- Jquery !-->    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Bootstrap !-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<!-- Awesome !-->
+	<script src="https://kit.fontawesome.com/beb3e4dea4.js" crossorigin="anonymous"></script>
+	<script src="{{ url_for('static', filename='js/form.js') }}"></script>
+	<!-- Custom CSS !-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/custom.css') }}"> 
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div id="successAlert" class="alert alert-success" role="alert" style="display:none;"></div>
+		<div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;"></div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-xs-12">
+			<div class="panel-info drexgen-gray">
+				<div id="video_validado">
+					<img src="{{ url_for('static', filename='img/path860.png') }}">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 col-xs-12">
+			<div class="panel-info drexgen-water">
+				<h2>PRINCIPAL</h2>
+				<form>
+					<div class="form-row">
+						<div class="col">
+							<div class="input-group mb-2 mr-sm-2">
+								<div class="input-group-prepend">
+								  <div class="input-group-text"><i class="fas fa-video"></i></div>
+								</div>
+								<select class="custom-select custom-select-lg" id="webcamInput">
+									<option selected>WEBCAM</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+								</select>
+							</div>							
+						</div>
+					</div>	
+					<div class="form-row">
+						<div class="col">
+							<div class="input-group mb-2 mr-sm-2">
+								<div class="input-group-prepend">
+								  <div class="input-group-text"><i class="fab fa-raspberry-pi"></i></div>
+								</div>
+								<input type="text" class="form-control" id="rtspInput" placeholder="RTSP">
+							</div>							
+						</div>		
+					</div>
+					<div class="form-row">			
+						<div class="col">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" id="videoFile" lang="es">
+								<label class="custom-file-label" for="videoFile">Escoger video</label>
+							</div>							
+						</div>									
+					</div>
+	  				<div class="row">
+						<div class="slidecontainer col-sm-12 col-xs-12">
+							<label for="resolucionRange">Resolución</label>
+							<input type="range" class="slider" min="300" max="800" step="100" id="resolucionRange">
+							<p>Valor: <span id="showResolucion"></span></p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="slidecontainer col-sm-12 col-xs-12">
+							<label for="distanciamientoRange">Distanciamiento</label>
+							<input type="range" class="slider" min="0" max="300" step="100" id="distanciamientoRange">
+							<p>Valor: <span id="showDistanciamiento"></span></p>
+						</div>
+					</div>
+	  				<button type="submit" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
+				</form>
+			</div>
+		</div>
+		<div class="col-sm-6 col-xs-12">	
+			<div class="panel-info drexgen-sky">
+				<h2>WEB</h2>
+    			<form class="form-inline">
+					<div class="form-row">
+						<div class="col">
+							<div class="input-group mb-2 mr-sm-2">
+								<div class="input-group-prepend">
+								  <div class="input-group-text">IP</div>
+								</div>
+								<input type="text" class="form-control" id="ipInput" placeholder="xxx.xxx.x.xx">
+							</div>							
+						</div>		
+					</div>
+					<div class="form-row">
+						<div class="col">
+							<div class="input-group mb-2 mr-sm-2">
+								<div class="input-group-prepend">
+								  <div class="input-group-text"><i class="fab fa-megaport"></i></div>
+								</div>
+								<input type="text" class="form-control" id="puertoInput" placeholder="Puerto...">
+							</div>							
+						</div>		
+					</div>
+					<div class="form-row">
+						<div class="col">
+							<label for="distanciamientoRange">Debug</label>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+								<label class="form-check-label" for="inlineRadio1">Si</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+								<label class="form-check-label" for="inlineRadio2">No</label>
+							</div>						
+						</div>		
+					</div>
+					<div class="form-row">
+						<div class="col">
+							<label for="distanciamientoRange">Threaded</label>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+								<label class="form-check-label" for="inlineRadio1">Si</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+								<label class="form-check-label" for="inlineRadio2">No</label>
+							</div>						
+						</div>		
+					</div>					
+	  				<div class="form-group">
+	  				  <label class="sr-only" for="nameInput">Name</label>
+	  				  <input type="text" class="form-control" id="nameInput" placeholder="THREADED">
+	  				</div>
+	  				<button type="submit" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
+				</form>		
+			</div>
+		</div>
+		<div class="col-sm-6 col-xs-12">	
+			<div class="panel-info drexgen-earth">
+				<h2>AVANZADO</h2>
+    			<form>
+					<div class="form-row">
+						<div class="col">	
+	  				  		<label class="sr-only" for="emailInput">Modelo</label>
+	  				  		<input type="text" class="form-control" id="emailInput" placeholder="MODELO">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col">	
+	  					  <label class="sr-only" for="emailInput">Min. Config</label>
+	  					  <input type="text" class="form-control" id="emailInput" placeholder="MIN_CONF">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col">	
+	  					  <label class="sr-only" for="emailInput">NMS Thresh</label>
+	  					  <input type="text" class="form-control" id="emailInput" placeholder="NMS_THRESH">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col">	
+	  					  <label class="sr-only" for="nameInput">Use GPU</label>
+	  					  <input type="text" class="form-control" id="nameInput" placeholder="USE_GPU">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 col-xs-12">	
+							<label>Formato(Cambiar)</label>				  
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="iss">
+								<label class="form-check-label" for="inlineRadio1">ISS</label>
+							  </div>
+							  <div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="hikvision" disabled>
+								<label class="form-check-label" for="inlineRadio2">Hikvision (disabled)</label>
+							  </div>
+							  <div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="dahua" disabled>
+								<label class="form-check-label" for="inlineRadio3">Dahua (disabled)</label>
+							  </div>
+						</div>
+					</div>
+
+					<div id="iss" class="form-row">
+						<div class="input-group mb-3 col">
+							<div class="input-group-prepend">
+							  <label class="input-group-text" for="filtrarDatos_preciomayor"><i class="fas fa-network-wired"></i></label>
+							</div>
+							<input type="text" name="ISSip" class="form-control" placeholder="xxx.xxx.x.xx" autocomplete="off">
+							<input type="text" name="ISSpuerto" class="form-control" placeholder="8000" autocomplete="off" disabled>
+							<select class="custom-select custom-select-lg" name="ISSevento" disabled>
+								<option value="eventgate" selected>EVENTGATE</option>
+								<option value="post">POST</option>
+								<option value="get">GET</option>
+							</select>							
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-default"><i class="fa fa-paper-plane"></i></button>
+					</div>
+				</form>	
+			</div>
+		</div>
+	</div>	
+</div>
+</body>
+</html>
