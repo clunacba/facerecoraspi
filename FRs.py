@@ -1,6 +1,5 @@
 import numpy as np
 import imutils
-import paho.mqtt.client as mqtt
 import cv2
 import os
 import json
@@ -9,7 +8,7 @@ from imutils.video import FPS
 import face_recognition
 import pickle
 import time
-
+from alarma import alarm
 from datetime import datetime
 
 from common import clock, draw_str, draw_strApe, draw_rects, overlay_transparent
@@ -62,9 +61,12 @@ class VideoCamera(object):
 
     def face_demo(self, camera,gray,rgb):
         ##########################Por unica vez###########################
-        if self.ban == False:
-            
-            self.ban = True
+        """if self.ban == False:
+            bandera = True
+            cv2.imwrite("rgb.jpg",rgb)
+            cv2.imwrite("gray.jpg",gray)
+            cv2.imwrite("camera.jpg",camera)
+            self.ban = True"""
         ##############################Bucle#####################################
         #camera = cv2.flip(camera,1)
         
@@ -88,7 +90,11 @@ class VideoCamera(object):
 
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
-        for encoding in encodings:
+        
+        for encoding in encodings: 
+            #bandera = True
+            #print(f'en el for {bandera}')
+            
 
             matches = face_recognition.compare_faces(self.data["encodings"],
                 encoding,tolerance=0.5)
@@ -107,9 +113,17 @@ class VideoCamera(object):
 
                 
                 name = max(counts, key=counts.get)
+                #alarm.send_mqtt(name, camera)
             
             
             names.append(name)
+            if name!="Unknown":
+                if self.ban == False:
+                    alarm.send_mqtt(name, camera)
+                    self.ban = True
+            else:
+                self.ban = False
+                
 
             for x1, y1, x2, y2 in rects:
                 centrox = int((x1 + x2 ) / 2)
@@ -124,10 +138,3 @@ class VideoCamera(object):
 
         return camera
 
-"""if __name__=='__main__':
-    vid=VideoCamera(1)
-    while True:
-        capt=vid.get_img()
-        cv2.imshow("fra",capt)
-        if cv2.waitKey(1)&0xFF == ord("q"):
-            break"""
